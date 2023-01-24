@@ -1,0 +1,352 @@
+GET http://localhost:7000/users
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsIm5hbWUiOiJPa2t5IFNldHlhIEt1cm5pYXdhbiIsImVtYWlsIjoib2treXNldHlhODdAZ21haWwuY29tIiwiaWF0IjoxNjY1OTgwOTQwLCJleHAiOjE2NjU5ODA5NTV9.gMuwE9Mf8IaBkInxgAqA5AHG0R51Q-9se-utpRp7ypw
+
+
+
+###
+POST https://raportmidu.layhomedev.site/api/users
+Content-Type: application/json
+
+{
+    "name" : "Okky Setya Kurniawan",
+    "email" : "okky@gmail.com",
+    "password" : "1234",
+    "confPassword" : "12345678"
+}
+
+
+###
+POST http://localhost:9076/login
+Content-Type: application/json
+
+{
+    "email":"Yerico@gmail.com",
+    "password":"adminmidu"
+} 
+
+
+
+###
+GET http://localhost:9076/token
+
+
+
+###
+GET http://localhost:9076/kelasSearch/?limit=10&page=0&idGuru=1
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsIm5hbWUiOiJZRVJJQ08gQUdVTkcgS1JJU1RBTlRPIiwiZW1haWwiOiJZZXJpY29AZ21haWwuY29tIiwicGljdHVyZSI6ImRlZmF1bHQucG5nIiwicm9sZSI6IkFkbWluIiwidGFodW4iOiIyMDIyLzIwMjMiLCJpYXQiOjE2NzM1NDY1NjYsImV4cCI6MTY3MzU0NjU4MX0.kTKqgR6O5dSVPxuwZR2meug9hduZTjzIce7gQaWjqiM
+
+
+
+
+
+
+
+###
+GET http://localhost:9076/rapor/2/3/Genap/UAS
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsIm5hbWUiOiJZRVJJQ08gQUdVTkcgS1JJU1RBTlRPIiwiZW1haWwiOiJZZXJpY29AZ21haWwuY29tIiwicGljdHVyZSI6ImRlZmF1bHQucG5nIiwicm9sZSI6IkFkbWluIiwidGFodW4iOiIyMDIyLzIwMjMiLCJpYXQiOjE2NzMwMjkyODksImV4cCI6MTY3MzAyOTMwNH0.5ushpagBRkTMMZHfsLrbIcnGWThOmbSE9WN85xFt7Ag
+
+
+###
+GET http://localhost:9076/kelasProgres/progres
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsIm5hbWUiOiJZRVJJQ08gQUdVTkcgS1JJU1RBTlRPIiwiZW1haWwiOiJZZXJpY29AZ21haWwuY29tIiwicGljdHVyZSI6ImRlZmF1bHQucG5nIiwicm9sZSI6IkFkbWluIiwidGFodW4iOiIyMDIyLzIwMjMiLCJpYXQiOjE2NzMwMzgzNTgsImV4cCI6MTY3MzAzODM3M30.V2hEgZSONIqQDK00isyeUngpr4NhizkLbZ2kDXeVw5c
+
+
+
+
+
+###
+GET http://localhost:9076/kelas
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsIm5hbWUiOiJZRVJJQ08gQUdVTkcgS1JJU1RBTlRPIiwiZW1haWwiOiJZZXJpY29AZ21haWwuY29tIiwicGljdHVyZSI6ImRlZmF1bHQucG5nIiwicm9sZSI6IkFkbWluIiwiaWF0IjoxNjcyOTQ2NzU3LCJleHAiOjE2NzI5NDY3Nzd9.3xv0FfZSRpr8K_BvfzPkwRRtXyVBh54RZdh3Ak2GfRk
+
+
+
+
+
+###
+GET http://localhost:9076/mapel/42
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMsIm5hbWUiOiJva2t5IiwiZW1haWwiOiJva2t5c2V0eWFAZ21haWwuY29tIiwicGljdHVyZSI6ImRlZmF1bHQucG5nIiwicm9sZSI6IkFkbWluIiwiaWF0IjoxNjcxMjI3NDMyLCJleHAiOjE2NzEyMjc0NDd9.P_BAQ5ylC-wK9u8W-SFJyVvoOmH5sZD6dEXNOzs48zI
+
+###
+GET http://localhost:9076/siswaSearch?page=0&limit=10
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMsIm5hbWUiOiJva2t5IiwiZW1haWwiOiJva2t5c2V0eWFAZ21haWwuY29tIiwicGljdHVyZSI6ImRlZmF1bHQucG5nIiwicm9sZSI6IkFkbWluIiwiaWF0IjoxNjcyMDAyOTE1LCJleHAiOjE2NzIwMDI5MzB9.4iV8DHLkb_Yn5xmsJWh4gT4nJqqgDcmlrZ3o67q54SY
+
+
+
+
+
+
+
+
+###
+DELETE http://localhost:9076/logout
+
+
+# Guru
+
+###
+GET http://localhost:7000/guru
+
+
+###
+GET http://localhost:7000/guru/5
+
+
+###
+POST http://localhost:7000/guru
+Content-Type: application/json
+
+{
+    "nama": "Zaid Muhammad",
+    "jtm": "15 jam",
+    "nuptk": "5242353452445235",
+    "wali_kelas": "3b",
+    "pendidikan": "S1 KOM",
+    "tanggal_lahir": "2000-05-27",
+    "picture": "jaid.png"
+} 
+
+###
+PUT http://localhost:7000/guru/3
+Content-Type: application/json
+
+{
+    "id": 1,
+    "nama": "Zain Afandi",
+    "jtm": "13 jam",
+    "nuptk": "56756755856556746456",
+    "wali_kelas": "4c",
+    "pendidikan": "SD",
+    "tanggal_lahir": "1998-03-22",
+    "picture": "jain.png"
+} 
+
+###
+DELETE http://localhost:7000/guru/6
+
+
+#kelas
+
+
+
+###
+GET http://localhost:7000/kelas
+
+
+###
+GET http://localhost:7000/kelas/6
+
+
+###
+POST http://localhost:7000/kelas
+Content-Type: application/json
+
+{
+    "nama_kelas" : "1A"
+}
+
+
+###
+PUT http://localhost:7000/kelas/3
+Content-Type: application/json
+
+{
+    "nama_kelas" : "6C"
+}
+
+
+###
+DELETE http://localhost:7000/kelas/6
+
+
+#  Nilai
+
+
+###
+GET http://localhost:7000/nilai
+
+###
+GET http://localhost:7000/nilai/2
+
+
+###
+POST http://localhost:7000/nilai
+Content-Type: application/json
+
+{
+    "nilai" : "90",
+    "id_jenis_nilai" : 2
+}
+
+
+###
+PUT http://localhost:7000/nilai/2
+Content-Type: application/json
+
+{
+    "nilai" : "70",
+    "id_jenis_nilai" : 1
+}
+
+
+###
+DELETE http://localhost:7000/nilai/2
+
+
+
+#  Siswa
+
+###
+GET http://localhost:7000/siswa
+
+###
+GET http://localhost:7000/siswa/2
+
+
+###
+POST http://localhost:7000/siswa
+Content-Type: application/json
+
+{
+    "nisn": 452342341234, 
+    "nama": "Yerico", 
+    "tanggal_lahir" : "2004-04-4", 
+    "jenis_kelamin" : "Laki - laki", 
+    "id_kelas" : 1
+}
+
+
+###
+PUT http://localhost:7000/siswa/2
+Content-Type: application/json
+
+{
+    "nisn": 452342341234, 
+    "nama": "Yerico", 
+    "tanggal_lahir" : "2004-04-4", 
+    "jenis_kelamin" : "Laki - laki", 
+    "id_kelas" : 1
+}
+
+
+###
+DELETE http://localhost:7000/siswa/2
+
+
+
+#  Mapel
+
+###
+GET http://localhost:7000/mapel
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsIm5hbWUiOiJPa2t5IFNldHlhIEt1cm5pYXdhbiIsImVtYWlsIjoib2treXNldHlhODdAZ21haWwuY29tIiwiaWF0IjoxNjY2MDExNDUyLCJleHAiOjE2NjYwMTE0Njd9.ir3SwnH2Ip-5cDEX5JyA4Ev2UsB_FTcXlZOYCnVyok8
+
+
+
+
+###
+GET http://localhost:7000/mapel/3
+
+
+
+###
+POST http://localhost:7000/mapel
+Content-Type: application/json
+
+{
+    "nama" : "bhs Sunda", 
+    "induk" : "Mulok"
+}
+
+
+
+###
+PUT http://localhost:7000/mapel/3
+Content-Type: application/json
+
+{
+    "nama": "bhs papua", 
+    "induk" : "Mulok", 
+    "id_nilai" : 4
+}
+
+
+###
+DELETE http://localhost:7000/mapel/3
+
+
+#  Wali
+
+###
+GET http://localhost:7000/wali
+
+###
+GET http://localhost:7000/wali/2
+
+
+
+###
+POST http://localhost:7000/wali
+Content-Type: application/json
+
+{
+    "nama" : "Sambo", 
+    "hubungan_wali": "ayah",
+    "id_siswa" : 2
+}
+
+
+
+###
+PUT http://localhost:7000/wali/2
+Content-Type: application/json
+
+{
+    "nama" : "ifah", 
+    "hubungan_wali": "Step Sister",
+    "id_siswa" : 4
+}
+
+
+###
+DELETE http://localhost:7000/wali/2
+
+
+
+#  Wali
+
+###
+GET http://localhost:7000/rapor
+
+###
+GET http://localhost:7000/rapor/3
+
+
+
+###
+POST http://localhost:7000/rapor
+Content-Type: application/json
+
+{
+    "angkatan": 2021,
+    "semester": 4,
+    "id_siswa": 3,
+    "id_mapel": 5,
+    "id_kelas": 3
+}
+
+
+
+###
+PUT http://localhost:7000/rapor/3
+Content-Type: application/json
+
+{
+    "angkatan": 2024,
+    "semester": 7,
+    "id_siswa": 2,
+    "id_mapel": 1,
+    "id_kelas": 6
+}
+
+
+###
+DELETE http://localhost:7000/rapor/2

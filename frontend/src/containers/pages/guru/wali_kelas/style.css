@@ -1,0 +1,58 @@
+#table-hiden table,
+th,
+td {
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+
+#table-hiden table {
+    background-color: #fff;
+    color: black;
+    width: 100%;
+}
+
+#table-hiden>#my-table tbody {
+    text-align: center;
+    padding: 5;
+}
+
+#table-hiden>#my-table thead {
+    text-align: center;
+    padding: 5;
+}
+
+#table-hiden {
+    font-size: 12px;
+}
+
+#table-hiden .no {
+    width: 4%;
+}
+
+#table-hiden .mapel {
+    width: 66%;
+}
+
+#table-hiden .peng {
+    width: 15%;
+}
+
+#table-hiden .ket {
+    width: 15%;
+}
+
+#table-hiden .np {
+    width: 7%;
+}
+
+#table-hiden .pp {
+    width: 13%;
+}
+
+#table-hiden .nk {
+    width: 7%;
+}
+
+#table-hiden .pk {
+    width: 13%;
+}
