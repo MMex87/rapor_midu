@@ -355,7 +355,7 @@ export const user = (props) => {
                                     </div>
                                     <div className="col-1 d-flex justify-content-end">
                                         <button type="button" className="btn btn-tool " data-card-widget="collapse">
-                                            <i className="fas fa-minus" />
+                                            <i className="fas fa-plus" />
                                         </button>
                                         <button type="button" className="btn btn-tool" data-card-widget="remove"><i className="fas fa-times" />
                                         </button>
@@ -421,7 +421,7 @@ export const user = (props) => {
                                     </div>
                                     <div className="col-1 d-flex justify-content-end">
                                         <button type="button" className="btn btn-tool " data-card-widget="collapse">
-                                            <i className="fas fa-minus" />
+                                            <i className="fas fa-plus" />
                                         </button>
                                         <button type="button" className="btn btn-tool" data-card-widget="remove"><i className="fas fa-times" />
                                         </button>
@@ -490,7 +490,7 @@ export const user = (props) => {
                                     </div>
                                     <div className="col-1 d-flex justify-content-end">
                                         <button type="button" className="btn btn-tool " data-card-widget="collapse">
-                                            <i className="fas fa-minus" />
+                                            <i className="fas fa-plus" />
                                         </button>
                                         <button type="button" className="btn btn-tool" data-card-widget="remove"><i className="fas fa-times" />
                                         </button>

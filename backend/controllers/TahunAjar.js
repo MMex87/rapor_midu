@@ -3,7 +3,58 @@ const TahunAjar = require("../models/TahunAjarModel")
 
 const getTahun = async (req, res) => {
     try {
-        const tahun = await TahunAjar.findOne({
+        const tahun = await TahunAjar.findAll({
+            attributes: ['tahun_ajar'],
+            order: [
+                ['id', 'DESC']
+            ]
+        })
+
+        if (tahun == null) {
+            res.status(401).json({ msg: 'Data Kosong' })
+        } else {
+            res.json(tahun)
+        }
+    } catch (error) {
+        console.log(error);
+        res.json({ msg: "Gagal Mengambil Data! " + error })
+    }
+}
+
+const getTahunPage = async (req, res) => {
+    try {
+        const page = parseInt(req.query.page) || 0
+        const limit = parseInt(req.query.limit) || 10
+        const offset = limit * page
+
+        const totalRows = await TahunAjar.count()
+
+        const totalPage = Math.ceil(totalRows / limit)
+
+        const result = await TahunAjar.findAll({
+            offset,
+            limit,
+            order: [
+                ['id', 'DESC']
+            ]
+        })
+
+        res.json({
+            page,
+            result,
+            totalPage,
+            totalRows,
+            limit
+        })
+
+    } catch (error) {
+        res.status(404).json({ msg: "Data Tidak di temukan", error })
+    }
+}
+
+const getTahunLogin = async (req, res) => {
+    try {
+        const tahun = await TahunAjar.findAll({
             attributes: ['tahun_ajar'],
             order: [
                 ['id', 'DESC']
@@ -88,8 +139,10 @@ const deleteTahun = async (req, res) => {
 
 module.exports = {
     getTahun,
+    getTahunLogin,
     getTahunId,
     tambahTahun,
     updateTahun,
-    deleteTahun
+    deleteTahun,
+    getTahunPage
 }

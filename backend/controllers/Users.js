@@ -28,6 +28,15 @@ const getSuper = async (req, res) => {
     } catch (error) {
         console.log(error);
     }
+
+}
+const getTahunAjar = async (req, res) => {
+    try {
+        const users = await Users.findOne({ attributes: ['tahunAjar'], where: { email: req.params.email } })
+        res.json(users)
+    } catch (error) {
+        console.log(error);
+    }
 }
 
 const Register = async (req, res) => {
@@ -169,6 +178,7 @@ const Login = async (req, res) => {
         })
         const match = await bcrypt.compare(req.body.password, user[0].password)
         if (!match) return res.status(400).json({ msg: "Wrong Password" })
+        if (!req.body.tahun) return res.status(400).json({ msg: "Tolong Isi Tahun Ajar Terlebih Dahulu" })
         const userId = user[0].id;
         const name = user[0].name;
         const picture = user[0].picture;
@@ -180,7 +190,7 @@ const Login = async (req, res) => {
         const refreshtoken = jwt.sign({ userId, name, email, picture, role }, process.env.REFRESH_TOKEN_SECRET, {
             expiresIn: '1D'
         })
-        await Users.update({ refresh_token: refreshtoken }, {
+        await Users.update({ refresh_token: refreshtoken, tahunAjar: req.body.tahun }, {
             where: {
                 id: userId
             }
@@ -246,6 +256,7 @@ const DeleteUser = async (req, res) => {
 
 module.exports = {
     getSuper,
+    getTahunAjar,
     getUsers,
     getUsersId,
     DeleteUser,

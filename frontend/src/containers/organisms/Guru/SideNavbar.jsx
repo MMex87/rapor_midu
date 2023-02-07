@@ -28,7 +28,7 @@ const SideNav = (props) => {
     }
     const getKelas = async () => {
         try {
-            const response = await axiosJWT.get(`/kelas`, {
+            const response = await axiosJWT.get(`/kelas/${props.tahun_ajar}`, {
                 headers: {
                     Authorization: `Bearer ${props.token}`
                 }
@@ -106,19 +106,30 @@ const SideNav = (props) => {
                                 </Link>
                             </li>
                             <li className="nav-item">
-                                { (props.role == 'Wali Kelas') ? (
-                                    <>
-                                        { kelas.filter(({ id_guru, tahun_ajar }) => id_guru == id_Guru && tahun_ajar == props.tahun_ajar).map((val, index) => (
-                                            <Link className="nav-link" to={ `/UserGuru/WaliKelas/${val.id}` }>
-                                                <i className="fa-sharp fa-solid fa-chalkboard-user nav-icon"></i>
-                                                <p key={ index }>
-                                                    Kelas { val.kelas + val.nama_kelas }
-                                                </p>
-                                            </Link>
-                                        )) }
-                                    </>
+                                <a href="#" class="nav-link">
+                                    <i class="nav-icon fas fa-copy"></i>
+                                    <p>
+                                        Wali Kelas
+                                        <i class="fas fa-angle-left right"></i>
+                                    </p>
+                                </a>
+                                <ul class="nav nav-treeview">
+                                    { (props.role == 'Wali Kelas') ? (
+                                        <>
+                                            { kelas.filter(({ id_guru, tahun_ajar }) => id_guru == id_Guru && tahun_ajar == props.tahun_ajar).map((val, index) => (
+                                                <li class="nav-item">
+                                                    <Link className="nav-link" to={ `/UserGuru/WaliKelas/${val.id}` }>
+                                                        <i className="fa-sharp fa-solid fa-chalkboard-user nav-icon"></i>
+                                                        <p key={ index }>
+                                                            Kelas { val.kelas + val.nama_kelas }
+                                                        </p>
+                                                    </Link>
+                                                </li>
+                                            )) }
+                                        </>
 
-                                ) : '' }
+                                    ) : '' }
+                                </ul>
                             </li>
                             { mapel.filter(({ idGuru, tahun_ajar }) => idGuru == id_Guru && tahun_ajar == props.tahun_ajar).map((val, index) => (
                                 <li className="nav-item" key={ index }>

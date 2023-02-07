@@ -5,24 +5,33 @@ import { useNavigate, Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import ActionType from '../../../../redux/reducer/globalActionType'
 import ReactPaginate from 'react-paginate'
+import Swal from 'sweetalert2'
 
 const Dashboard = (props) => {
-    const navigate = useNavigate()
+    // Definisi Alert
+    const Toast = Swal.mixin({
+        customClass: {
+            confirmButton: 'btn btn-success',
+            cancelButton: 'btn btn-danger'
+        },
+        buttonsStyling: false
+    })
 
+    const navigate = useNavigate()
     const axiosJWT = axios.create()
 
     // state Datas
     const [users, setUsers] = useState([])
-    const [kelas, setKelas] = useState([])
+    const [tahun, setTahun] = useState([])
     const [siswaCount, setSiswaCount] = useState([])
     const [kelasCount, setKelasCount] = useState([])
     const [guru, setGuru] = useState([])
-    const [nilai, setNilai] = useState([])
+    const [tahunAjar, setTahunAjar] = useState([])
     const [rapor, setRapor] = useState([])
 
     // state
-    const [idKelas, setIdKelas] = useState('')
     const [idGuru, setIdGuru] = useState('')
+    const [handle, setHandle] = useState(false)
 
     // state Pagination dan search
     const [page, setPage] = useState(0)
@@ -42,6 +51,7 @@ const Dashboard = (props) => {
             props.handlePicture(decoded.picture)
             props.handleRole(decoded.role)
             props.handleTahunAjar(decoded.tahun)
+            setIdGuru(decoded.userId)
         } catch (error) {
             return navigate('/')
         }
@@ -59,9 +69,10 @@ const Dashboard = (props) => {
             console.error(error);
         }
     }
+
     const getKelas = async () => {
         try {
-            const response = await axiosJWT.get('/kelas', {
+            const response = await axiosJWT.get(`/kelas/${props.tahun_ajar}`, {
                 headers: {
                     Authorization: `Bearer ${props.token}`
                 }
@@ -93,32 +104,27 @@ const Dashboard = (props) => {
     }
     const getData = async () => {
         try {
-
-            const responseIdGuru = await axiosJWT.get(`/guru/nama/${props.name}`, {
+            const responseTahun = await axiosJWT.get(`/tahunAjarPage?limit=${limit}&page=${page}`, {
                 headers: {
                     Authorization: `Bearer ${props.token}`
                 }
             })
-            const responseKelas = await axiosJWT.get(`/kelasSearch?limit=${limit}&page=${page}&idGuru=${responseIdGuru.data.id}`, {
-                headers: {
-                    Authorization: `Bearer ${props.token}`
-                }
-            })
-            setKelas(responseKelas.data.result)
-            setPage(responseKelas.data.page)
-            setPages(responseKelas.data.totalPage)
-            setRows(responseKelas.data.totalRows)
+            setTahun(responseTahun.data.result)
+            setPage(responseTahun.data.page)
+            setPages(responseTahun.data.totalPage)
+            setRows(responseTahun.data.totalRows)
+            setLimit(responseTahun.data.limit)
         } catch (error) {
             console.error(error);
         }
     }
-    const getNilai = async () => {
-        const response = await axiosJWT.get(`/nilai`, {
+    const getTahunAjar = async () => {
+        const response = await axiosJWT.get(`/tahunAjar`, {
             headers: {
                 Authorization: `Bearer ${props.token}`
             }
         })
-        setNilai(response.data)
+        setTahunAjar(response.data)
     }
     const getRapor = async () => {
         try {
@@ -138,6 +144,44 @@ const Dashboard = (props) => {
         setPage(selected)
     }
 
+    // handle pilih Tahun ajar
+    const handleTahunAjar = async (tahun_ajar) => {
+        try {
+            Toast.fire({
+                title: 'Apa Kamu Yakin?',
+                text: `Kamu akan Menganti Tahun Ajar!`,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Ok, Ganti!',
+                cancelButtonText: 'Tidak, Batal!',
+                reverseButtons: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    Toast.fire(
+                        'Success!',
+                        `Data berhasil Berganti.`,
+                        'success'
+                    )
+                    axios.put(`/guru/${idGuru}`, {
+                        tahunAjar: tahun_ajar
+                    })
+                    setHandle(!handle)
+                } else if (
+                    /* Read more about handling dismissals below */
+                    result.dismiss === Swal.DismissReason.cancel
+                ) {
+                    Toast.fire(
+                        'Dibatalkan',
+                        `Data Belum Berganti :)`,
+                        'error'
+                    )
+                }
+            })
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
 
     useEffect(() => {
         refreshToken()
@@ -146,9 +190,9 @@ const Dashboard = (props) => {
         getGuru()
         getKelas()
         getData()
-        getNilai()
+        getTahunAjar()
         getRapor()
-    }, [props.token, page])
+    }, [props.token, page, handle])
 
     axiosJWT.interceptors.request.use(async (config) => {
         const currentDate = new Date()
@@ -162,6 +206,7 @@ const Dashboard = (props) => {
             props.handlePicture(decoded.picture)
             props.handleRole(decoded.role)
             props.handleTahunAjar(decoded.tahun)
+            setIdGuru(decoded.userId)
         }
         return config
     }, (error) => {
@@ -268,19 +313,26 @@ const Dashboard = (props) => {
                                             <thead>
                                                 <tr className='container'>
                                                     <th>No</th>
-                                                    <th>Nama Kelas</th>
                                                     <th>Tahun Ajar</th>
                                                     <th>Aksi</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 {
-                                                    kelas.map((val, index) => (
+                                                    tahun.map((val, index) => (
                                                         <tr>
                                                             <td>{ index + 1 }</td>
-                                                            <td>{ val.kelas + val.nama_kelas }</td>
                                                             <td>{ val.tahun_ajar }</td>
-                                                            <td><Link className='btn btn-success' to={ `/UserGuru/WaliKelas/${val.id}` }>Detail</Link></td>
+                                                            <td>
+                                                                {
+                                                                    val.tahun_ajar == props.tahun_ajar
+                                                                        ?
+                                                                        'Terpilih'
+                                                                        :
+                                                                        <button className='btn btn-success' onClick={ () => handleTahunAjar(val.tahun_ajar) }>Pilih
+                                                                        </button>
+                                                                }
+                                                            </td>
                                                         </tr>
                                                     ))
                                                 }

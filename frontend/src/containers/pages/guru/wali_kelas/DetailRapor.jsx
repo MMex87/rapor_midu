@@ -149,8 +149,6 @@ const DetailRapor = (props) => {
         }
     }
 
-    // console.log(namaMapel);
-    // console.log(kkmMapel);
 
     // console.log(dataRapor)
     // handle PDF

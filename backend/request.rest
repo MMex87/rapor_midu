@@ -21,7 +21,8 @@ Content-Type: application/json
 
 {
     "email":"Yerico@gmail.com",
-    "password":"adminmidu"
+    "password":"adminmidu",
+    "tahun":"2022/2023"
 } 
 
 
@@ -29,11 +30,36 @@ Content-Type: application/json
 ###
 GET http://localhost:9076/token
 
+###
+GET http://localhost:9076/kelasId/10
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsIm5hbWUiOiJZZXJpY28iLCJlbWFpbCI6Inllcmljb0BnbWFpbC5jb20iLCJwaWN0dXJlIjoiZGVmYXVsdC5wbmciLCJyb2xlIjoiQWRtaW4iLCJ0YWh1biI6IjIwMjIvMjAyMyIsImlhdCI6MTY3NTA5Nzg0NiwiZXhwIjoxNjc1MDk3ODYxfQ.tqGxkrTADuGKLI6d094v1ScJGHlxg0sm0zD4tGE2eik
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 ###
 GET http://localhost:9076/kelasSearch/?limit=10&page=0&idGuru=1
 Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsIm5hbWUiOiJZRVJJQ08gQUdVTkcgS1JJU1RBTlRPIiwiZW1haWwiOiJZZXJpY29AZ21haWwuY29tIiwicGljdHVyZSI6ImRlZmF1bHQucG5nIiwicm9sZSI6IkFkbWluIiwidGFodW4iOiIyMDIyLzIwMjMiLCJpYXQiOjE2NzM1NDY1NjYsImV4cCI6MTY3MzU0NjU4MX0.kTKqgR6O5dSVPxuwZR2meug9hduZTjzIce7gQaWjqiM
+
+
+
+
+
+
 
 
 

@@ -1,4 +1,5 @@
 const Mapel = require("../models/mapelModel.js")
+const TahunAjar = require("../models/TahunAjarModel.js")
 const db = require('../config/Database.js')
 
 
@@ -66,9 +67,13 @@ const getMapelKelas = async (req, res) => {
 }
 
 const tambahMapel = async (req, res) => {
-    const { kkm, idGuru, id_kelas, id_NMapel, id_tahunAjar } = req.body
+    const { kkm, idGuru, id_kelas, id_NMapel, tahun_ajar } = req.body
+    const id_tahunAjar = await TahunAjar.findOne({
+        attributes: ['id'],
+        where: { tahun_ajar }
+    })
     try {
-        const mapel = await Mapel.create({ kkm, idGuru, id_kelas, id_NMapel, id_tahunAjar })
+        const mapel = await Mapel.create({ kkm, idGuru, id_kelas, id_NMapel, id_tahunAjar: id_tahunAjar.id })
 
         if (mapel === 0)
             res.status(404).json({ msg: "Data Tidak di temukan" })
