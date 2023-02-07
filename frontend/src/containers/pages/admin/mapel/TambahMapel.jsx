@@ -30,7 +30,6 @@ const TambahMapel = (props) => {
     const [id_NMapel, setIdMapel] = useState('')
     const [kkm, setKkm] = useState('')
     const [idGuru, setIdGuru] = useState('')
-    const [idTahun, setIdTahun] = useState('')
     const [guru, setGuru] = useState([])
     const [jtm, setJtm] = useState(0)
     const [dataMapel, setDataMapel] = useState([])
@@ -99,18 +98,6 @@ const TambahMapel = (props) => {
             console.log(error);
         }
     }
-    const getTahunId = async () => {
-        try {
-            const response = await axiosJWT.get(`/tahunAjar/${props.tahun_ajar}`, {
-                headers: {
-                    Authorization: `Bearer ${props.token}`
-                }
-            })
-            setIdTahun(response.data)
-        } catch (error) {
-            console.log(error);
-        }
-    }
 
     // handle Tambah Data
     const Tambah = async (e) => {
@@ -128,7 +115,7 @@ const TambahMapel = (props) => {
                     jtm
                 })
                 await axios.post('/mapel', {
-                    kkm, idGuru, id_kelas, id_NMapel, id_tahunAjar: idTahun.id
+                    kkm, idGuru, id_kelas, id_NMapel, tahun_ajar: props.tahun_ajar
                 })
                 Toast.fire({
                     icon: 'success',
@@ -159,7 +146,6 @@ const TambahMapel = (props) => {
         refreshToken()
         getGuru()
         getNamaMapel()
-        getTahunId()
     }, [])
 
 

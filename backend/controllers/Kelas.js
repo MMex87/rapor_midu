@@ -10,9 +10,9 @@ const getKelas = async (req, res) => {
     try {
         const tahunAjar = await TahunAjar.findOne({
             attributes: ['id', 'tahun_ajar'],
-            order: [
-                ['id', 'DESC']
-            ]
+            where: {
+                tahun_ajar: req.params.tahun + '/' + req.params.tahun2
+            }
         })
 
         const [kelas] = await db.query("SELECT k.id, k.kelas, k.nama_kelas, k.id_guru, k.id_tahunAjar, t.tahun_ajar " +
@@ -41,7 +41,7 @@ const getKelasId = async (req, res) => {
 
 
     } catch (error) {
-        res.status(404).json({ msg: "Data Tidak di temukan" })
+        res.status(404).json({ msg: "Gagal Get Data", error })
     }
 }
 const getKelasGuru = async (req, res) => {
@@ -174,9 +174,13 @@ const getProgresKelas = async (req, res) => {
 }
 
 const tambahKelas = async (req, res) => {
-    const { kelas, nama_kelas, id_guru, id_tahunAjar } = req.body
+    const { kelas, nama_kelas, id_guru, tahun_ajar } = req.body
+    const id_tahunAjar = await TahunAjar.findOne({
+        attributes: ['id'],
+        where: { tahun_ajar }
+    })
     try {
-        await Kelas.create({ kelas, nama_kelas, id_guru, id_tahunAjar })
+        await Kelas.create({ kelas, nama_kelas, id_guru, id_tahunAjar: id_tahunAjar.id })
 
         res.json({ msg: "Data Berhasil Di Tambahakan" })
     } catch (error) {

@@ -45,7 +45,7 @@ const Nilai = (props) => {
                     Authorization: `Bearer ${props.token}`
                 }
             })
-            const responseKelas = await axiosJWT.get(`/kelas/${response.data.id_kelas}`, {
+            const responseKelas = await axiosJWT.get(`/kelasId/${response.data.id_kelas}`, {
                 headers: {
                     Authorization: `Bearer ${props.token}`
                 }
@@ -105,66 +105,12 @@ const Nilai = (props) => {
                         <div className="col-12">
                             <div className="card collapsed-card">
                                 <div className="card-header row">
-                                    <h3 className="card-title col-4">Nilai UAS Ganjil</h3>
-                                    <div className="col-5"></div>
-                                    <div className="col-3 d-flex justify-content-end">
-                                        <div className="card-tools">
-                                            <button type="button" className="btn btn-tool " data-card-widget="collapse">
-                                                <i className="fas fa-minus" />
-                                            </button>
-                                        </div>
-                                        <div className="card-tools me-5">
-                                            <button type="button" className="btn btn-tool" data-card-widget="remove"><i className="fas fa-times" />
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="card-body table-responsive p-0">
-                                    <UasGanjil />
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div className="container-fluid">
-                    {/* /.row */ }
-                    <div className="row">
-                        <div className="col-12">
-                            <div className="card collapsed-card">
-                                <div className="card-header row">
-                                    <h3 className="card-title col-4">Nilai UAS Genap</h3>
-                                    <div className="col-5"></div>
-                                    <div className="col-3 d-flex justify-content-end">
-                                        <div className="card-tools">
-                                            <button type="button" className="btn btn-tool " data-card-widget="collapse">
-                                                <i className="fas fa-minus" />
-                                            </button>
-                                        </div>
-                                        <div className="card-tools me-5">
-                                            <button type="button" className="btn btn-tool" data-card-widget="remove"><i className="fas fa-times" />
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="card-body table-responsive p-0">
-                                    <UasGenap />
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div className="container-fluid">
-                    {/* /.row */ }
-                    <div className="row">
-                        <div className="col-12">
-                            <div className="card collapsed-card">
-                                <div className="card-header row">
                                     <h3 className="card-title col-4">Nilai UTS Ganjil</h3>
                                     <div className="col-5"></div>
                                     <div className="col-3 d-flex justify-content-end">
                                         <div className="card-tools">
                                             <button type="button" className="btn btn-tool " data-card-widget="collapse">
-                                                <i className="fas fa-minus" />
+                                                <i className="fas fa-plus" />
                                             </button>
                                         </div>
                                         <div className="card-tools me-5">
@@ -191,7 +137,7 @@ const Nilai = (props) => {
                                     <div className="col-3 d-flex justify-content-end">
                                         <div className="card-tools">
                                             <button type="button" className="btn btn-tool " data-card-widget="collapse">
-                                                <i className="fas fa-minus" />
+                                                <i className="fas fa-plus" />
                                             </button>
                                         </div>
                                         <div className="card-tools me-5">

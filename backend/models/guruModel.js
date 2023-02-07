@@ -1,5 +1,6 @@
 const { Sequelize } = require("sequelize")
 const db = require("../config/Database.js")
+const Kelas = require("./kelasModel.js")
 
 const { DataTypes } = Sequelize
 
@@ -36,9 +37,14 @@ const Guru = db.define('guru', {
     },
     role: {
         type: DataTypes.STRING
+    },
+    tahunAjar: {
+        type: DataTypes.STRING
     }
 }, {
     freezeTableName: true
 })
+
+
 
 module.exports = Guru

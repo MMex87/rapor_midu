@@ -52,7 +52,7 @@ export const ProgresRapor = (props) => {
     // get Datas
     const getKelas = async () => {
         try {
-            const response = await axiosJWT.get('/kelas', {
+            const response = await axiosJWT.get(`/kelas/${props.tahun_ajar}`, {
                 headers: {
                     Authorization: `Bearer ${props.token}`
                 }
@@ -95,17 +95,16 @@ export const ProgresRapor = (props) => {
                 }
             })
             setDataProgres(response.data)
-            const data = response.data
-            let point = 0
-            for (let i = 0; i < data.length; i++) {
-                if (data[i] == 100) {
-                    point = point + 1
-                }
-            }
-            if (point == data.length) {
-                ajaranBaru = true
-            }
-            console.log(point);
+            // const data = response.data
+            // let point = 0
+            // for (let i = 0; i < data.length; i++) {
+            //     if (data[i] == 100) {
+            //         point = point + 1
+            //     }
+            // }
+            // if (point == data.length) {
+            //     ajaranBaru = true
+            // }
         } catch (error) {
             console.error(error)
         }
@@ -124,14 +123,14 @@ export const ProgresRapor = (props) => {
                 text: "Kamu akan Menganti Ajaran Baru!",
                 icon: 'warning',
                 showCancelButton: true,
-                confirmButtonText: 'Ok, Hapus!',
+                confirmButtonText: 'Ok, Ganti!',
                 cancelButtonText: 'Tidak, Batal!',
                 reverseButtons: true
             }).then((result) => {
                 if (result.isConfirmed) {
 
                     Toast.fire(
-                        'Terhapus!',
+                        'Berhasil!',
                         'Ajaran Baru Sudah Dimulai!',
                         'success'
                     ).then((res) => {
@@ -307,9 +306,7 @@ export const ProgresRapor = (props) => {
 
                 <div className={ 'd-flex justify-content-end ' }>
                     <div className={ 'w-25 d-flex justify-content-center ' }>
-                        <div className={ (ajaranBaru) ? '' : 'd-none' }>
-                            <button className={ 'btn btn-warning' } onClick={ () => gantiAjaranBaru() }>Ganti Ajaran Baru</button>
-                        </div>
+                        <button className={ 'btn btn-warning' } onClick={ () => gantiAjaranBaru() }>Ganti Ajaran Baru</button>
                     </div>
                 </div>
             </div>

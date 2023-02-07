@@ -26,6 +26,11 @@ const Login = () => {
     const [emailReq, setEmailReq] = useState('')
     const [passwordReq, setPasswordReq] = useState('')
     const [confPassword, setConfPassword] = useState('')
+    // State Tahun Ajar
+    const [tahunUser, setTahunUser] = useState('')
+    const [tahunGuru, setTahunGuru] = useState('')
+    const [userTahun, setUserTahun] = useState('')
+    const [guruTahun, setGuruTahun] = useState('')
 
     // state panel dan visibility
     const [panel, setPanel] = useState('')
@@ -36,6 +41,9 @@ const Login = () => {
     const [authStatus, setAuthStatus] = useState(0)
     const [authStatus2, setAuthStatus2] = useState(0)
     const navigate = useNavigate()
+
+    // state data
+    const [tahunAjar, setTahunAjar] = useState([])
 
 
     const handleSingUp = () => {
@@ -62,6 +70,15 @@ const Login = () => {
         setPasswordGuru('')
     };
 
+    // get Data
+    const getTahunAjar = async () => {
+        try {
+            const response = await axios.get('/tahunAjarLogin')
+            setTahunAjar(response.data)
+        } catch (error) {
+            console.log(error);
+        }
+    }
 
 
     // refresh Token
@@ -96,6 +113,27 @@ const Login = () => {
         }
     }
 
+    // handle Tahun Ajar
+    const handleTahunAjar = async () => {
+        try {
+            const response = await axios.get(`/usersTahun/${email}`)
+
+            setUserTahun(response.data.tahunAjar)
+        } catch (error) {
+            setUserTahun('')
+        }
+    }
+    const handleTahunAjarGuru = async () => {
+        try {
+            const response = await axios.get(`/guruUname/${username}`)
+
+            setGuruTahun(response.data.tahunAjar)
+        } catch (error) {
+            setGuruTahun('')
+        }
+    }
+
+
     // Auth Registrasi
     const handleRegister = async () => {
         try {
@@ -109,19 +147,26 @@ const Login = () => {
         }
     }
 
-
     useEffect(() => {
         authLogin()
         authLogin2()
         handleLogin()
-    }, [authStatus || authStatus2])
+        getTahunAjar()
+        handleTahunAjar()
+        handleTahunAjarGuru()
+    }, [authStatus, authStatus2, email, username])
 
     // handle Login dan Register
     const LoginAdmin = async (e) => {
         e.preventDefault()
+        let tahun = ''
+        if (tahunUser)
+            tahun = tahunUser
+        else
+            tahun = userTahun
         try {
             await axios.post('/login', {
-                email, password
+                email, password, tahun
             })
             const response = await axios.get('/token')
             const decoded = jwt_decode(response.data.accessToken)
@@ -150,9 +195,14 @@ const Login = () => {
 
     const LoginGuru = async (e) => {
         e.preventDefault()
+        let tahun = ''
+        if (tahunGuru)
+            tahun = tahunGuru
+        else
+            tahun = guruTahun
         try {
             await axios.post('/loginGuru', {
-                username, password: passwordGuru
+                username, password: passwordGuru, tahun
             })
             Toast.fire({
                 icon: 'success',
@@ -213,6 +263,14 @@ const Login = () => {
                         <span>Gunakan Username untuk Login</span>
                         <input type="text" placeholder="Username" onChange={ (e) => setUsername(e.target.value) } value={ username } required />
                         <input type="password" placeholder="Password" onChange={ (e) => setPasswordGuru(e.target.value) } value={ passwordGuru } required />
+                        <select onChange={ ((e) => setTahunGuru(e.target.value)) }>
+                            <option selected={ (guruTahun == '') ? 'selected' : '' } value=''>-- Pilih Tahun Ajar --</option>
+                            {
+                                tahunAjar.map((val, index) => (
+                                    <option key={ index } value={ val.tahun_ajar } selected={ (guruTahun == val.tahun_ajar ? 'selected' : '') }>{ val.tahun_ajar }</option>
+                                ))
+                            }
+                        </select>
                         <button>Sign In</button>
                         <p id="mobile_para">Jika belum punya akun Guru bisa Minta Akun ke Admin!!</p>
                         <button className="ghost_mobile" id="signIn_mobile" onClick={ () => handleSingInMobile() }>Login Admin</button>
@@ -224,6 +282,14 @@ const Login = () => {
                         <span>Gunakan Email untuk Login</span>
                         <input type="email" placeholder="Email" onChange={ (e) => setEmail(e.target.value) } value={ email } required />
                         <input type="password" placeholder="Password" onChange={ (e) => setPassword(e.target.value) } value={ password } required />
+                        <select onChange={ ((e) => setTahunUser(e.target.value)) }>
+                            <option selected={ (userTahun == '') ? 'selected' : '' } value='' >-- Pilih Tahun Ajar --</option>
+                            {
+                                tahunAjar.map((val, index) => (
+                                    <option key={ index } value={ val.tahun_ajar } selected={ (userTahun == val.tahun_ajar ? 'selected' : '') }>{ val.tahun_ajar }</option>
+                                ))
+                            }
+                        </select>
                         <button>Sign In</button>
                         <p id="mobile_para">Jika belum punya akun Admin bisa Minta Akun ke Super Admin!!</p>
                         <button className="ghost_mobile" id="signUp_mobile" onClick={ () => handleSingUpMobile() }>Login Guru</button>

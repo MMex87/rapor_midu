@@ -63,7 +63,7 @@ const Mapel = (props) => {
     }
     const getKelas = async () => {
         try {
-            const response = await axiosJWT.get('/kelas', {
+            const response = await axiosJWT.get(`/kelas/${props.tahun_ajar}`, {
                 headers: {
                     Authorization: `Bearer ${props.token}`
                 }

@@ -11,11 +11,15 @@ import TableKelas3 from './TableKelas3'
 import TableKelas4 from './TableKelas4'
 import TableKelas5 from './TableKelas5'
 import TableKelas6 from './TableKelas6'
+import GenerateKelas from './GenerateKelas'
 
 const Kelas = (props) => {
     // deklarasi hooks dan axios
     const navigate = useNavigate()
     const axiosJWT = axios.create()
+
+    // state data
+    const [tahunAjar, setTahunAjar] = useState([])
 
 
     // refresh Token
@@ -36,8 +40,6 @@ const Kelas = (props) => {
             return navigate('/')
         }
     }
-
-
 
     // Hooks Use Effect
     useEffect(() => {
@@ -80,6 +82,7 @@ const Kelas = (props) => {
                         </div>{/* /.row */ }
                     </div>{/* /.container-fluid */ }
                 </div>
+                <GenerateKelas />
                 <TableKelas />
                 <TableKelas2 />
                 <TableKelas3 />

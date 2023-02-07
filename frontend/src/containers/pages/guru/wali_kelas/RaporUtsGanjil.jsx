@@ -71,7 +71,7 @@ export const RaporUtsGanjil = (props) => {
             })
             setMapel(responseMapel.data.mapel)
 
-            const responseKelas = await axiosJWT.get(`/kelas/${params.idKelas}`, {
+            const responseKelas = await axiosJWT.get(`/kelasId/${params.idKelas}`, {
                 headers: {
                     Authorization: `Bearer ${props.token}`
                 }
@@ -111,7 +111,7 @@ export const RaporUtsGanjil = (props) => {
     }
     const getKelas = async () => {
         try {
-            const response = await axiosJWT.get('/kelas', {
+            const response = await axiosJWT.get(`/kelas/${props.tahun_ajar}`, {
                 headers: {
                     Authorization: `Bearer ${props.token}`
                 }
@@ -244,47 +244,6 @@ export const RaporUtsGanjil = (props) => {
         setIdSiswa('')
     }
 
-    const naikKelas = (e) => {
-        e.preventDefault()
-        try {
-            Toast.fire({
-                title: 'Apa Kamu Yakin?',
-                text: `Kamu akan Menaikan Siswa Tersebut!`,
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonText: 'Ok, Naik!',
-                cancelButtonText: 'Tidak, Batal!',
-                reverseButtons: true
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    Toast.fire(
-                        'Naik Kelas!',
-                        `Data berhasil Berganti Kelas.`,
-                        'success'
-                    ).then((res) => {
-                        if (res.isConfirmed)
-                            setHandle(false)
-                    })
-                    axios.put(`/siswa/${idSiswa}`, {
-                        id_kelas: idKelas
-                    })
-                    setHandle(true)
-                } else if (
-                    /* Read more about handling dismissals below */
-                    result.dismiss === Swal.DismissReason.cancel
-                ) {
-                    Toast.fire(
-                        'Dibatalkan',
-                        `Data Belum Ganti kelas :)`,
-                        'error'
-                    )
-                }
-            })
-        } catch (error) {
-            console.log(error)
-        }
-    }
-
     useEffect(() => {
         refreshToken()
         handleData()
@@ -315,7 +274,7 @@ export const RaporUtsGanjil = (props) => {
     return (
         <>
             <div className="card-header row">
-                <h3 className="card-title col-sm-4">Daftar Siswa UAS Genap</h3>
+                <h3 className="card-title col-sm-4">Daftar Siswa UTS Ganjil</h3>
                 <div className='col-sm-7 d-flex justify-content-end'>
                     {
                         (
@@ -331,7 +290,7 @@ export const RaporUtsGanjil = (props) => {
                 <div className="col-sm-1 d-flex justify-content-end">
                     <div className="card-tools">
                         <button type="button" className="btn btn-tool " data-card-widget="collapse">
-                            <i className="fas fa-minus" />
+                            <i className="fas fa-plus" />
                         </button>
                     </div>
                     <div className="card-tools me-5">
@@ -341,81 +300,59 @@ export const RaporUtsGanjil = (props) => {
                 </div>
             </div>
             <div className="card-body table-responsive p-0">
-                <form onSubmit={ naikKelas }>
-                    <table className="table table-hover table-dark text-nowrap" >
-                        <thead>
-                            <tr className='container'>
-                                <th>No</th>
-                                <th>NIS</th>
-                                <th>NISN</th>
-                                <th>Nama Siswa</th>
-                                <th>Aksi</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            { siswa.filter(({ id_kelas }) => id_kelas == params.idKelas).map((val, index) => (
-                                <tr key={ index }>
-                                    <td>{ index + 1 }</td>
-                                    <td>{ val.nis }</td>
-                                    <td>{ val.nisn }</td>
-                                    <td>{ val.nama }</td>
-                                    {
-                                        visi == index + 1
-                                            ?
-                                            <>
-                                                <td className='d-flex justify-content-around'>
+                <table className="table table-hover table-dark text-nowrap" >
+                    <thead>
+                        <tr className='container'>
+                            <th>No</th>
+                            <th>NIS</th>
+                            <th>NISN</th>
+                            <th>Nama Siswa</th>
+                            <th>Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        { siswa.filter(({ id_kelas }) => id_kelas == params.idKelas).map((val, index) => (
+                            <tr key={ index }>
+                                <td>{ index + 1 }</td>
+                                <td>{ val.nis }</td>
+                                <td>{ val.nisn }</td>
+                                <td>{ val.nama }</td>
+                                {
+                                    visi == index + 1
+                                        ?
+                                        <>
+                                            <td className='d-flex justify-content-around'>
 
-                                                    <select className="form-control select2" style={ { width: '50%' } } onChange={ (e) => setIdKelas(e.target.value) }>
-                                                        <option selected value="">-- Pilih Kelas --</option>
-                                                        { kelas.filter(({ kelas }) => kelas == nKelas).map((val) => (
-                                                            <option value={ val.id }>{ val.kelas + val.nama_kelas }</option>
-                                                        )) }
-                                                    </select>
-                                                    <button type='submit' className='btn btn-success btn-sm'>Naik</button>
-                                                    <button type='button' className='btn btn-warning btn-sm' onClick={ () => handleBatal() }>Batal</button>
-                                                </td>
-                                            </>
-                                            :
-                                            <>
-                                                <td className='d-flex justify-content-around'>
-                                                    { rapor.find(({ id_siswa, id_kelas, semester, jenis_rapor, angkatan }) => id_siswa == val.id && id_kelas == val.id_kelas && semester == Semester && jenis_rapor == Jenis_rapor && angkatan == Angkatan) == null
-                                                        ?
-                                                        <div className='me-5'>
-                                                            <button type='button' className='btn btn-primary' onClick={ () => handleRapor(val.id, val.id_kelas) }>Generate Nilai</button>
-                                                        </div>
-                                                        :
-                                                        <div className='me-5'>
-                                                            <Link className='btn btn-success' to={ `/UserGuru/WaliKelas/${params.idKelas}/${val.id}/${Semester}/${Jenis_rapor}` }>Detail Nilai</Link>
-                                                        </div>
-                                                    }
-                                                    {
-                                                        (
-                                                            rapor.find(({ id_kelas, semester, jenis_rapor, angkatan, id_siswa }) =>
-                                                                id_kelas == params.idKelas && semester == Semester && jenis_rapor == Jenis_rapor && angkatan == Angkatan && id_siswa == val.id)
-                                                        )
-                                                            &&
-                                                            (
-                                                                nilai.filter(({ id_siswa, id_rapor }) =>
-                                                                    id_siswa == val.id &&
-                                                                    id_rapor ==
-                                                                    rapor.find(({ id_kelas, semester, jenis_rapor, angkatan, id_siswa }) =>
-                                                                        id_kelas == params.idKelas && semester == Semester && jenis_rapor == Jenis_rapor && angkatan == Angkatan && id_siswa == val.id).id).length
-                                                                ==
-                                                                mapel.length
-                                                            )
-                                                            ?
-                                                            <div className='btn btn-sm btn-warning align-middle' onClick={ () => handleNaik(index, val.id) }>Naik Kelas</div>
-                                                            :
-                                                            ''
-                                                    }
-                                                </td>
-                                            </>
-                                    }
-                                </tr>
-                            )) }
-                        </tbody>
-                    </table>
-                </form>
+                                                <select className="form-control select2" style={ { width: '50%' } } onChange={ (e) => setIdKelas(e.target.value) }>
+                                                    <option selected value="">-- Pilih Kelas --</option>
+                                                    { kelas.filter(({ kelas }) => kelas == nKelas).map((val) => (
+                                                        <option value={ val.id }>{ val.kelas + val.nama_kelas }</option>
+                                                    )) }
+                                                </select>
+                                                <button type='submit' className='btn btn-success btn-sm'>Naik</button>
+                                                <button type='button' className='btn btn-warning btn-sm' onClick={ () => handleBatal() }>Batal</button>
+                                            </td>
+                                        </>
+                                        :
+                                        <>
+                                            <td className='d-flex justify-content-around'>
+                                                { rapor.find(({ id_siswa, id_kelas, semester, jenis_rapor, angkatan }) => id_siswa == val.id && id_kelas == val.id_kelas && semester == Semester && jenis_rapor == Jenis_rapor && angkatan == Angkatan) == null
+                                                    ?
+                                                    <div className='me-5'>
+                                                        <button type='button' className='btn btn-primary' onClick={ () => handleRapor(val.id, val.id_kelas) }>Generate Nilai</button>
+                                                    </div>
+                                                    :
+                                                    <div className='me-5'>
+                                                        <Link className='btn btn-success' to={ `/UserGuru/WaliKelas/${params.idKelas}/${val.id}/${Semester}/${Jenis_rapor}` }>Detail Nilai</Link>
+                                                    </div>
+                                                }
+                                            </td>
+                                        </>
+                                }
+                            </tr>
+                        )) }
+                    </tbody>
+                </table>
 
             </div>
         </>

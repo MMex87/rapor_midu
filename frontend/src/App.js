@@ -6,7 +6,6 @@ import {
 } from "react-router-dom";
 // import login dan register
 import Login from "./containers/pages/login/Login";
-import Register from "./containers/pages/Register"
 // import Template
 import Template from "./containers/templates/Template";
 // import Admin
@@ -44,6 +43,7 @@ import Nilai from "./containers/pages/guru/nilai/Nilai";
 import WaliKelas from "./containers/pages/guru/wali_kelas/WaliKelas";
 import DetailRapor from "./containers/pages/guru/wali_kelas/DetailRapor";
 import DataMapel from "./containers/pages/admin/mapel/DataMapel";
+import { TempKelas } from "./containers/pages/admin/kelas/TempKelas";
 
 // dashboard login
 
@@ -53,7 +53,6 @@ const router = createBrowserRouter(
     <Route path="/">
       {/* login dan register */ }
       <Route index element={ <Login /> } />
-      <Route path="/register" element={ <Register /> } />
 
       {/* Super Admin */ }
       <Route path="/user" element={ <Template /> } >
@@ -92,6 +91,7 @@ const router = createBrowserRouter(
       </Route>
       <Route path="/kelas" element={ <Template /> }>
         <Route index element={ <Kelas /> } />
+        <Route path={ "/kelas/tempKelas" } element={ <TempKelas /> } />
       </Route>
 
       {/* Kepala Sekolah */ }

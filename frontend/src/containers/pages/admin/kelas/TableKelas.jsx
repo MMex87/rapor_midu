@@ -36,12 +36,12 @@ export const TableKelas = (props) => {
     const [visi, setVisi] = useState('d-none')
     const [idKelas, setIdKelas] = useState('')
     const [id_guru, setIdGuru] = useState('')
-    const [id_guru2, setIdGuru2] = useState('')
     const [handle, setHandle] = useState(false)
 
     // state Data
     const [kelas, setKelas] = useState([])
     const [guru, setGuru] = useState([])
+    const [guruWali, setGuruWali] = useState([])
     const [siswa, setSiswa] = useState([])
 
 
@@ -60,7 +60,6 @@ export const TableKelas = (props) => {
         setIdKelas(id)
         setNama(nama)
         setIdGuru(idGuru)
-        setIdGuru2(idGuru)
         getGuruId(idGuru)
     }
     // handel Back
@@ -70,7 +69,6 @@ export const TableKelas = (props) => {
         setWali('')
         setNama('')
         setIdGuru('')
-        setIdGuru2('')
         getGuruId('')
     }
 
@@ -97,7 +95,7 @@ export const TableKelas = (props) => {
     // get Datas
     const getKelas = async () => {
         try {
-            const response = await axiosJWT.get('/kelas', {
+            const response = await axiosJWT.get(`/kelas/${props.tahun_ajar}`, {
                 headers: {
                     Authorization: `Bearer ${props.token}`
                 }
@@ -115,6 +113,18 @@ export const TableKelas = (props) => {
                 }
             })
             setGuru(response.data)
+        } catch (err) {
+            console.error(err)
+        }
+    }
+    const getGuruWali = async () => {
+        try {
+            const response = await axiosJWT.get(`/guruWali`, {
+                headers: {
+                    Authorization: `Bearer ${props.token}`
+                }
+            })
+            setGuruWali(response.data)
         } catch (err) {
             console.error(err)
         }
@@ -150,11 +160,9 @@ export const TableKelas = (props) => {
         if (idKelas == '') {
             try {
                 await axios.post('/kelas', {
-                    kelas: Nkelas, nama_kelas, id_guru,
+                    kelas: Nkelas, nama_kelas, id_guru, tahun_ajar: props.tahun_ajar
                 })
-                await axios.put(`/guruRole/${id_guru}`, {
-                    role: 'Wali Kelas'
-                })
+
                 Toast.fire({
                     icon: 'success',
                     title: 'Berhasil di Tambahkan',
@@ -167,7 +175,6 @@ export const TableKelas = (props) => {
                 setWali('')
                 setNama('')
                 setIdGuru('')
-                setIdGuru2('')
                 getGuruId('')
 
             } catch (error) {
@@ -179,14 +186,6 @@ export const TableKelas = (props) => {
             await axios.put(`/kelas/${idKelas}`, {
                 nama_kelas, id_guru
             })
-            if (id_guru != id_guru2) {
-                await axios.put(`/guruRole/${id_guru}`, {
-                    role: 'Wali Kelas'
-                })
-                await axios.put(`/guruRole/${id_guru2}`, {
-                    role: 'Guru'
-                })
-            }
 
             Toast.fire({
                 icon: 'success',
@@ -201,7 +200,6 @@ export const TableKelas = (props) => {
             setWali('')
             setNama('')
             setIdGuru('')
-            setIdGuru2('')
             getGuruId('')
         }
     }
@@ -209,12 +207,6 @@ export const TableKelas = (props) => {
     // handale hapus
     const handleHapus = async (id_kelas) => {
         try {
-            const response = await axiosJWT.get(`/kelas/${id_kelas}`, {
-                headers: {
-                    Authorization: `Bearer ${props.token}`
-                }
-            })
-
             Toast2.fire({
                 title: 'Apa Kamu Yakin?',
                 text: "Kamu akan Menghapus Data Kelas!",
@@ -232,9 +224,6 @@ export const TableKelas = (props) => {
                     ).then((res) => {
                         if (res.isConfirmed)
                             setHandle(false)
-                    })
-                    axios.put(`/guruRole/${response.data.id_guru}`, {
-                        role: 'Guru'
                     })
                     axios.delete(`/kelas/${id_kelas}`)
                     // navigate('/siswa')
@@ -259,6 +248,7 @@ export const TableKelas = (props) => {
     useEffect(() => {
         refreshToken()
         getGuru()
+        getGuruWali()
         getKelas()
         getSiswa()
         return () => {
@@ -349,7 +339,7 @@ export const TableKelas = (props) => {
                                                         </a>
                                                     </div>
                                                     <div className="col-md-1 d-flex justify-content-end">
-                                                        <button className='btn btn-danger btn-sm ms-3' onClick={ () => handleHapus(val.id) } >
+                                                        <button className='btn btn-danger btn-sm ms-3' onClick={ () => handleHapus(val.id, val.id_guru) } >
                                                             <i className="fa-solid fa-trash"></i>
                                                         </button>
                                                     </div>
@@ -408,10 +398,9 @@ export const TableKelas = (props) => {
                                                             <div className="flex-container flex-column pos-rel">
                                                                 <ul className="list-group list-group-flush">
                                                                     {
-                                                                        guru
-                                                                            .filter(({ nama, role }) =>
-                                                                                nama.indexOf(wali) > -1 &&
-                                                                                role == "Guru"
+                                                                        guruWali
+                                                                            .filter(({ nama }) =>
+                                                                                nama.indexOf(wali) > -1
                                                                             )
                                                                             .map((v, i) => (
                                                                                 <li key={ i } onClick={ () => { handleAuto(v.nama, v.id) } } class="list-group-item">{ v.nama }</li>

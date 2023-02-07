@@ -41,11 +41,12 @@ const WaliKelas = (props) => {
     // get Datas
     const handleData = async () => {
         try {
-            const responseKelas = await axiosJWT.get(`/kelas/${params.idKelas}`, {
+            const responseKelas = await axiosJWT.get(`/kelasId/${params.idKelas}`, {
                 headers: {
                     Authorization: `Bearer ${props.token}`
                 }
             })
+            console.log(responseKelas.data.nama_kelas)
             setNamaKelas(responseKelas.data.nama_kelas)
             setNKelas(responseKelas.data.kelas)
 
@@ -95,26 +96,6 @@ const WaliKelas = (props) => {
                             </div>{/* /.col */ }
                         </div>{/* /.row */ }
                     </div>{/* /.container-fluid */ }
-                </div>
-                <div className="container-fluid">
-                    {/* /.row */ }
-                    <div className="row">
-                        <div className="col-12">
-                            <div className="card collapsed-card">
-                                <RaporUasGanjil />
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div className="container-fluid">
-                    {/* /.row */ }
-                    <div className="row">
-                        <div className="col-12">
-                            <div className="card collapsed-card">
-                                <RaporUasGenap />
-                            </div>
-                        </div>
-                    </div>
                 </div>
                 <div className="container-fluid">
                     {/* /.row */ }

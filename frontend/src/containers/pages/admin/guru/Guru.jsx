@@ -121,7 +121,7 @@ export const Guru = (props) => {
     useEffect(() => {
         refreshToken()
         getGuru()
-    }, [handle == true || page || search])
+    }, [handle == true, page, search])
 
     // axios Interceptors 
     axiosJWT.interceptors.request.use(async (config) => {
@@ -193,6 +193,7 @@ export const Guru = (props) => {
                                                 <th>Tanggal Lahir</th>
                                                 <th>JTM</th>
                                                 <th>Pendidikan</th>
+                                                <th>Role</th>
                                                 <th>Aksi</th>
                                             </tr>
                                         </thead>
@@ -201,13 +202,16 @@ export const Guru = (props) => {
                                                 <tr key={ index + 1 }>
                                                     <td className='col-sm-1'>{ index + 1 }</td>
                                                     <td className='col-sm-2'>{ val.nuptk }</td>
-                                                    <td className='col-sm-3'>{ val.nama }</td>
+                                                    <td className='col-sm-2'>{ val.nama }</td>
                                                     <td className='col-sm-1'>{ val.tanggal_lahir }</td>
                                                     <td className='col-sm-1'>
                                                         { val.jtm }
                                                     </td>
                                                     <td className='col-sm-1'>
                                                         { val.pendidikan }
+                                                    </td>
+                                                    <td className='col-sm-1'>
+                                                        { val.role }
                                                     </td>
                                                     <td className='d-flex justify-content-around'>
                                                         <div className='me-5'>

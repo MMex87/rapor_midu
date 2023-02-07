@@ -146,9 +146,7 @@ export const EditMapel = (props) => {
         refreshToken()
         getGuru()
         getNamaMapel()
-        return () => {
-            getMapel(id_mapel)
-        }
+        getMapel(id_mapel)
     }, [])
 
 

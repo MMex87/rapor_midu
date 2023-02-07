@@ -3,17 +3,62 @@ const bcrypt = require("bcrypt")
 const jwt = require("jsonwebtoken")
 const fs = require('fs')
 const { Op } = require("sequelize")
+const Kelas = require("../models/kelasModel.js")
 
 const getGurus = async (req, res) => {
     try {
         const gurus = await Guru.findAll({
-            attributes: ['id', 'nama', 'password', 'jtm', 'nuptk', 'pendidikan', 'tanggal_lahir', 'jenis_kelamin', 'picture', 'role']
+            attributes: ['id', 'nama', 'password', 'jtm', 'nuptk', 'pendidikan', 'tanggal_lahir', 'jenis_kelamin', 'picture', 'role', 'tahunAjar']
         })
         if (gurus === 0)
             res.status(404).json({ msg: "Data Tidak di temukan" })
         res.json(gurus)
     } catch (error) {
         console.log(error)
+    }
+}
+
+const getGurusWali = async (req, res) => {
+    try {
+        const guru = await Guru.findAll({
+            attributes: ['id', 'nama', 'role'],
+            where: { role: 'Wali Kelas' }
+        })
+        const kelas = await Kelas.findAll({
+            attributes: ['id_guru']
+        })
+        let data = []
+        for (let g of guru) {
+            let n = 0
+            for (let k of kelas) {
+                if (g.id == k.id_guru) {
+                    n = n + 1
+                }
+            }
+            if (n == 0) {
+                data.push({
+                    id: g.id,
+                    nama: g.nama,
+                    role: g.role
+
+                }
+                )
+            }
+        }
+
+        if (data === 0)
+            res.status(404).json({ msg: "Data Tidak di temukan" })
+        res.json(data)
+    } catch (error) {
+        console.log(error)
+    }
+}
+const getTahunAjar = async (req, res) => {
+    try {
+        const users = await Guru.findOne({ attributes: ['tahunAjar'], where: { username: req.params.uname } })
+        res.json(users)
+    } catch (error) {
+        console.log(error);
     }
 }
 
@@ -107,14 +152,14 @@ const TambahGuru = async (req, res) => {
 }
 
 const editGuru = async (req, res) => {
-    const { nama, username, jtm, nuptk, pendidikan, tanggal_lahir, jenis_kelamin, picture, role } = req.body
+    const { nama, username, jtm, nuptk, pendidikan, tanggal_lahir, jenis_kelamin, picture, role, tahunAjar } = req.body
 
     const gurus = await Guru.findOne({ where: { id: req.params.id } })
     const filepath = '../frontend/public/assets/uploads/' + gurus.picture
 
     try {
         const guru = await Guru.update({
-            nama, username, jtm, nuptk, pendidikan, tanggal_lahir, jenis_kelamin, picture, role
+            nama, username, jtm, nuptk, pendidikan, tanggal_lahir, jenis_kelamin, picture, role, tahunAjar
         }, {
             where: {
                 id: req.params.id
@@ -284,6 +329,7 @@ const Login = async (req, res) => {
         })
         const match = await bcrypt.compare(req.body.password, user[0].password)
         if (!match) return res.status(400).json({ msg: "Wrong Password" })
+        if (!req.body.tahun) return res.status(400).json({ msg: "Tolong Isi Tahun Ajar Terlebih Dahulu" })
         const userId = user[0].id;
         const name = user[0].nama;
         const username = user[0].username;
@@ -296,7 +342,7 @@ const Login = async (req, res) => {
         const refreshtoken = jwt.sign({ userId, name, username, picture, role, jtm }, process.env.REFRESH_TOKEN_SECRET, {
             expiresIn: '1D'
         })
-        await Guru.update({ refresh_token: refreshtoken }, {
+        await Guru.update({ refresh_token: refreshtoken, tahunAjar: req.body.tahun }, {
             where: {
                 id: userId
             }
@@ -356,6 +402,8 @@ const hapusGuru = async (req, res) => {
 
 module.exports = {
     hapusGuru,
+    getGurusWali,
+    getTahunAjar,
     Logout,
     Login,
     updateGuru,
