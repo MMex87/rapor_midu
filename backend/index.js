@@ -22,7 +22,14 @@ try {
 }
 
 
-app.use(cors({ credentials: true, origin: 'http://localhost:8076' }))
+// app.use(cors({ credentials: true, origin: 'http://localhost:8076' }))
+app.use(cors({
+    origin: function (origin, callback) {
+        return callback(null, true);
+    },
+    optionsSuccessStatus: 200,
+    credentials: true
+}))
 app.use(cookieParser())
 app.use(express.json())
 app.use(router)
