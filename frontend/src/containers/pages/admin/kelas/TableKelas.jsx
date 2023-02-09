@@ -7,7 +7,7 @@ import { connect } from 'react-redux'
 import Swal from 'sweetalert2'
 
 export const TableKelas = (props) => {
-    const Nkelas = '1'
+    const Nkelas = props.kelas
     // alert
     const Toast = Swal.mixin({
         toast: true,
@@ -83,6 +83,7 @@ export const TableKelas = (props) => {
             props.handlePicture(decoded.picture)
             props.handleRole(decoded.role)
             props.handleTahunAjar(decoded.tahun)
+            // console.log(decoded.tahun)
             if (decoded.role == "Kepala Sekolah") {
                 return navigate('/kepala/kelas')
             }
@@ -102,7 +103,9 @@ export const TableKelas = (props) => {
             })
             setKelas(response.data)
         } catch (error) {
-            console.error(error)
+            if (error.response.status != 404) {
+                console.error(error)
+            }
         }
     }
     const getGuru = async () => {
@@ -251,10 +254,7 @@ export const TableKelas = (props) => {
         getGuruWali()
         getKelas()
         getSiswa()
-        return () => {
-            refreshToken()
-        }
-    }, [handle == true])
+    }, [handle, props.token])
 
     // axios Interceptors 
     axiosJWT.interceptors.request.use(async (config) => {
@@ -289,7 +289,7 @@ export const TableKelas = (props) => {
                                     </a>
                                 </div>
                                 <div className="col-1 d-flex justify-content-end card-tools">
-                                    <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-plus"></i>
+                                    <button type="button" className="btn btn-tool" data-card-widget="collapse"><i className="fas fa-plus"></i>
                                     </button>
                                     <button type="button" className="btn btn-tool" data-card-widget="remove"><i className="fas fa-times" />
                                     </button>
@@ -323,13 +323,13 @@ export const TableKelas = (props) => {
                                                     <div className="col-md-1">:</div>
                                                     <div className="col-md-6">
                                                         {
-                                                            guru.map((value) => (
-                                                                <>
+                                                            guru.map((value, index) => (
+                                                                <div key={ index }>
                                                                     {
                                                                         value.id === val.id_guru ? value.nama : ''
                                                                     }
 
-                                                                </>
+                                                                </div>
                                                             ))
                                                         }
                                                     </div>
@@ -344,7 +344,7 @@ export const TableKelas = (props) => {
                                                         </button>
                                                     </div>
                                                 </div>
-                                                <div class="card-body table-responsive p-0" style={ { height: 200 } }>
+                                                <div className="card-body table-responsive p-0" style={ { height: 200 } }>
                                                     <table className="table table-hover table-head-fixed table-dark text-nowrap">
                                                         <thead>
                                                             <tr>
@@ -403,7 +403,7 @@ export const TableKelas = (props) => {
                                                                                 nama.indexOf(wali) > -1
                                                                             )
                                                                             .map((v, i) => (
-                                                                                <li key={ i } onClick={ () => { handleAuto(v.nama, v.id) } } class="list-group-item">{ v.nama }</li>
+                                                                                <li key={ i } onClick={ () => { handleAuto(v.nama, v.id) } } className="list-group-item" > { v.nama }</li>
                                                                             ))
                                                                     }
                                                                 </ul>
@@ -422,9 +422,9 @@ export const TableKelas = (props) => {
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </div>
-            </div>
+                    </div >
+                </div >
+            </div >
         </>
     )
 }

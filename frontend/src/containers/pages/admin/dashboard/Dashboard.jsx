@@ -100,7 +100,7 @@ const Dashboard = (props) => {
         getGuru()
         getSiswaRecent()
         getKelas()
-    }, [])
+    }, [props.token])
 
     axiosJWT.interceptors.request.use(async (config) => {
         const currentDate = new Date()

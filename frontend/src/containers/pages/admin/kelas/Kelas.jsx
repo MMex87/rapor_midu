@@ -6,11 +6,6 @@ import jwt_decode from 'jwt-decode'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import TableKelas from './TableKelas'
-import TableKelas2 from './TableKelas2'
-import TableKelas3 from './TableKelas3'
-import TableKelas4 from './TableKelas4'
-import TableKelas5 from './TableKelas5'
-import TableKelas6 from './TableKelas6'
 import GenerateKelas from './GenerateKelas'
 
 const Kelas = (props) => {
@@ -83,12 +78,12 @@ const Kelas = (props) => {
                     </div>{/* /.container-fluid */ }
                 </div>
                 <GenerateKelas />
-                <TableKelas />
-                <TableKelas2 />
-                <TableKelas3 />
-                <TableKelas4 />
-                <TableKelas5 />
-                <TableKelas6 />
+                <TableKelas kelas='1' />
+                <TableKelas kelas='2' />
+                <TableKelas kelas='3' />
+                <TableKelas kelas='4' />
+                <TableKelas kelas='5' />
+                <TableKelas kelas='6' />
             </div>
         </div>
     )

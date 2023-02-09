@@ -16,6 +16,27 @@ const getMapel = async (req, res) => {
         console.log(error)
     }
 }
+const getMapelTahun = async (req, res) => {
+    try {
+        const tahunAjar = await TahunAjar.findOne({
+            attributes: ['id', 'tahun_ajar'],
+            where: {
+                tahun_ajar: req.params.tahun + '/' + req.params.tahun2
+            }
+        })
+
+        const [mapel] = await db.query("SELECT m.id, m.kkm, m.idGuru, m.id_kelas, m.id_NMapel, n.nama ,n.induk ,m.id_tahunAjar ,t.tahun_ajar " +
+            "FROM mapel as m " +
+            "INNER JOIN nama_mapel as n " +
+            "on m.id_NMapel = n.id " +
+            "INNER JOIN tahun_ajar as t " +
+            "on m.id_tahunAjar = t.id " +
+            `WHERE id_tahunAjar = ${tahunAjar.id}`)
+        res.json(mapel)
+    } catch (error) {
+        console.log(error)
+    }
+}
 
 const getMapelId = async (req, res) => {
     try {
@@ -125,5 +146,6 @@ module.exports = {
     tambahMapel,
     getMapelKelas,
     getMapelId,
+    getMapelTahun,
     getMapel,
 }

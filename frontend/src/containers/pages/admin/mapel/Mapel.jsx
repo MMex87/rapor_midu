@@ -7,6 +7,7 @@ import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import Swal from 'sweetalert2'
 import TambahNamaMapel from './TambahNamaMapel'
+import GenerateMapel from './GenerateMapel'
 
 const Mapel = (props) => {
     // alert
@@ -144,7 +145,7 @@ const Mapel = (props) => {
         getMapel()
         getGuru()
         getKelas()
-    }, [handle == true])
+    }, [handle, props.token])
 
 
     // axios Interceptors 
@@ -184,8 +185,9 @@ const Mapel = (props) => {
                         </div>{/* /.row */ }
                     </div>{/* /.container-fluid */ }
                 </div>
+                <GenerateMapel />
                 <TambahNamaMapel />
-                { kelas.filter(({ tahun_ajar }) => tahun_ajar == props.tahun_ajar).map((isi, v) => (
+                { kelas.map((isi, v) => (
                     <div className="container-fluid" key={ v }>
                         {/* /.row */ }
                         <div className="row">

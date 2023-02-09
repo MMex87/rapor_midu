@@ -57,32 +57,36 @@ const GenerateKelas = (props) => {
     const getData = async () => {
         const tahunAjar = props.tahun_ajar
         const tahun = props.tahun_ajar.split('/')
-        const tahun1 = tahun[0]
+        const tahun1 = parseInt(tahun[0])
         const tahun2 = tahun1 - 1
         const tahunAjarLama = tahun2 + '/' + tahun1
-
-        const responseTahun = await axios.get(`/tahunAjar`, {
-            headers: {
-                Authorization: `Bearer ${props.token}`
+        try {
+            const responseTahun = await axiosJWT.get(`/tahunAjar`, {
+                headers: {
+                    Authorization: `Bearer ${props.token}`
+                }
+            })
+            const responseKelas = await axiosJWT.get(`/kelas/${tahunAjar}`, {
+                headers: {
+                    Authorization: `Bearer ${props.token}`
+                }
+            })
+            const data = responseTahun.data
+            if (data.find(({ tahun_ajar }) => tahun_ajar == tahunAjarLama) != null) {
+                if (responseKelas.data == 0) {
+                    setVisi2(true)
+                }
             }
-        })
-        const responseKelas = await axios.get(`/kelas/${tahunAjar}`, {
-            headers: {
-                Authorization: `Bearer ${props.token}`
-            }
-        })
-        const data = responseTahun.data
-
-        if (data.find(({ tahun_ajar }) => tahun_ajar == tahunAjarLama) != null) {
-            if (responseKelas.data == 0) {
-                setVisi2(true)
-            }
+        } catch (error) {
+            console.error(error)
         }
+
+
     }
 
     const getKelas = async () => {
         const tahun = props.tahun_ajar.split('/')
-        const tahun1 = tahun[0]
+        const tahun1 = parseInt(tahun[0])
         const tahun2 = tahun1 - 1
         const tahunAjarLama = tahun2 + '/' + tahun1
         try {
@@ -93,7 +97,9 @@ const GenerateKelas = (props) => {
             })
             setKelas(response.data)
         } catch (error) {
-            console.error(error)
+            if (error.response.status != 404) {
+                console.error(error)
+            }
         }
     }
 
@@ -131,11 +137,11 @@ const GenerateKelas = (props) => {
     // Hooks Use Effect
     useEffect(() => {
         refreshToken()
+        getData()
         getKelas()
         getGuru()
         setDataCheck(kelas)
-        getData()
-    }, [visi, visi2])
+    }, [visi, visi2, props.tahun_ajar])
 
 
 
@@ -218,10 +224,10 @@ const GenerateKelas = (props) => {
                                         {
                                             handle
                                                 ?
-                                                <button type="button" class="btn btn-primary btn-sm" onClick={ () => handleBack() }>Generate
+                                                <button type="button" className="btn btn-primary btn-sm" onClick={ () => handleBack() }>Generate
                                                 </button>
                                                 :
-                                                <button type="button" class="btn btn-warning btn-sm" onClick={ () => handleBack() }>Back
+                                                <button type="button" className="btn btn-warning btn-sm" onClick={ () => handleBack() }>Back
                                                 </button>
                                         }
                                     </div>

@@ -44,6 +44,7 @@ import WaliKelas from "./containers/pages/guru/wali_kelas/WaliKelas";
 import DetailRapor from "./containers/pages/guru/wali_kelas/DetailRapor";
 import DataMapel from "./containers/pages/admin/mapel/DataMapel";
 import { TempKelas } from "./containers/pages/admin/kelas/TempKelas";
+import { TempMapel } from "./containers/pages/admin/mapel/tempMapel";
 
 // dashboard login
 
@@ -74,6 +75,7 @@ const router = createBrowserRouter(
         <Route path="/mapel/edit/:idMapel"
           element={ <EditMapel /> } />
         <Route path={ "/mapel/dataMapel" } element={ <DataMapel /> } />
+        <Route path={ "/mapel/tempMapel" } element={ <TempMapel /> } />
       </Route>
       <Route path="/siswa" element={ <Template /> } >
         <Route index element={ <Siswa /> } />

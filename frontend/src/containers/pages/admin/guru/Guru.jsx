@@ -56,6 +56,7 @@ export const Guru = (props) => {
 
     // get Datas
     const getGuru = async () => {
+
         try {
             const response = await axiosJWT.get(`/guruSearch?search=${search}&limit=${limit}&page=${page}`, {
                 headers: {
